@@ -1,0 +1,6 @@
+.menu__circle {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}

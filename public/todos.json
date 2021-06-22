@@ -1,0 +1,39 @@
+[
+    {
+        "title": "Дом",
+        "color": "red",
+        "tasks": [
+            {
+                "name": "Вынести мусор",
+                "completed": false
+            },
+            {
+                "name": "Вынести мусор и еще кое-что очень длинное как разтоки и вынести мусор",
+                "completed": true
+            }
+        ]
+    },
+    {
+        "title": "Учеба",
+        "color": "blue",
+        "tasks": []
+    },
+    {
+        "title": "Список покупок",
+        "color": "yellow",
+        "tasks": [
+            {
+                "name": "Макарошки",
+                "completed": false
+            },
+            {
+                "name": "Пюрешку",
+                "completed": false
+            },
+            {
+                "name": "Something else",
+                "completed": false
+            }
+        ]
+    }
+]

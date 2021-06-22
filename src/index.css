@@ -28,7 +28,7 @@ main {
 }
 .left {
   width: 23%;
-  background-color: #79b5ff2b;
+  background-color: #f4f9ff;
 }
 .right {
   width: 77%;
@@ -63,13 +63,14 @@ main {
 } .menu__remove {
   display: none;
   padding: 4px;
+  margin-left: 14px;
 }
 .menu__item svg {
   flex-shrink: 0;
 }
 h2 {
   font-size: 1em;
-  margin-left: 14px;
+  margin-left: 20px;
   width: 100%;
   font-weight: 600;
 }
