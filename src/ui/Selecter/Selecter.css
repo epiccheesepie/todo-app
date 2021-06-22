@@ -4,3 +4,26 @@
     flex-shrink: 0;
     border-radius: 50%;
 }
+.menu__item--global:hover::after {
+    display: none;
+  }
+  .menu__item {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 12px;
+  } .menu__item:hover {
+    background-color: #fff;
+    box-shadow: var(--shadow);
+  } .menu__item:hover .menu__remove {
+    display: flex;
+  } .menu__remove {
+    display: none;
+    padding: 4px;
+    margin-left: 14px;
+  }
+  .menu__item svg {
+    flex-shrink: 0;
+  }
