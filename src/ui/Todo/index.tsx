@@ -1,12 +1,8 @@
 import React from "react";
+import { TodoModel } from '../../models'
 import './Todo.css';
 
-interface ComponentProps {
-    name: string,
-    completed: boolean
-}
-
-const Todo : React.FC<ComponentProps> = ({name, completed}) : React.ReactElement => {
+const Todo : React.FC<TodoModel> = ({name, completed}) : React.ReactElement => {
 
     return (
         <div className="todo__item">

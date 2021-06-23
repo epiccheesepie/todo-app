@@ -1,17 +1,34 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 
+import { SelecterModel } from './models';
+import TodoStore from './stores/TodoStore';
 import { Selecter } from './ui';
 import { Card } from './components';
+import { inject, observer } from 'mobx-react';
 
-const App = () => {
+type ComponentProps = {
+  todoStore?: TodoStore
+}
 
-  const [data, setData] = React.useState([]);
+const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
+
+  // const [data, setData] = React.useState([]);
+  const data: Array<SelecterModel> = todoStore!.getTodos;
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('http://localhost:3000/todos.json')
-    .then(response => response.json())
-    .then(json => setData(json));
+    if (todoStore) {
+      setLoading(true);
+      fetch('http://localhost:3000/todos.json')
+      .then(response => response.json())
+      .then(json => {
+        todoStore.setTodos(json);
+        setLoading(false);
+      })
+      .catch((e) => setError(e));
+    }
   }, []);
 
   return (
@@ -38,32 +55,53 @@ const App = () => {
       </div>
       <div className="right">
         <div className="right__container">
-          {!data.length
-          ? (
-            <div className="view--missing">
-              <span>Задачи отсутствуют</span>
-            </div>
-          )
-          : (
-            <div className="view">
-                <Route exact path="/">
-                  {data.map(({id, title, color, tasks}) => (
-                      <Card key={id} title={title} color={color} tasks={tasks} />
-                    )
-                  )}
-                </Route>
-                {data.map(({id, title, color, tasks}) => (
-                  <Route path={'/' + id}>
-                    <Card key={id} title={title} color={color} tasks={tasks} adder />
-                  </Route>
-                  )
-                )}
-            </div>
-          )}
+          <View data={data} loading={loading} error={error} />
         </div>
       </div>
     </main>
   );
+}))
+
+interface ViewProps {
+  data: Array<SelecterModel>,
+  loading: boolean,
+  error: any
 }
+
+const View : React.FC<ViewProps> = ({data, loading, error}) : React.ReactElement => {
+
+  if (error) {
+    return (
+      <div>Ошибка</div>
+    );
+  } else if (loading) {
+    return (
+      <div>Загрузка...</div>
+    );
+  } else {
+    return !data.length
+      ? (
+        <div className="view--missing">
+          <span>Задачи отсутствуют</span>
+        </div>
+      )
+      : (
+        <div className="view">
+            <Route exact path="/">
+              {data.map(({id, title, color, tasks}) => (
+                  <Card key={id} title={title} color={color} tasks={tasks} />
+                )
+              )}
+            </Route>
+            {data.map(({id, title, color, tasks}) => (
+              <Route path={'/' + id}>
+                <Card key={id} title={title} color={color} tasks={tasks} adder />
+              </Route>
+              )
+            )}
+        </div>
+      )
+    }
+};
 
 export default App;

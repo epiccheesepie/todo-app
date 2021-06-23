@@ -6,7 +6,7 @@ import './Selecter.css';
 interface ComponentProps {
     id: number,
     title: string,
-    color?: string
+    color: string
 }
 
 const Selecter : React.FC<ComponentProps> = ({id, title, color}) : React.ReactElement => {

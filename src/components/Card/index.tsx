@@ -1,17 +1,14 @@
 import React from 'react';
 
+import { TodoModel } from '../../models';
 import { TodoAdd, Todo } from '../../ui';
 import './Card.css';
 
 interface ComponentProps {
     title: string,
     color: string,
-    tasks: Array<TTodo>,
+    tasks: Array<TodoModel>,
     adder?: boolean
-}
-type TTodo = {
-    name: string,
-    completed: boolean
 }
 
 const Card : React.FC<ComponentProps> = ({title, color, tasks, adder}) : React.ReactElement => {
@@ -26,7 +23,7 @@ const Card : React.FC<ComponentProps> = ({title, color, tasks, adder}) : React.R
             </div>
             <div className="todo">
                 <div className="todo__wrap">
-                {tasks.map(({name, completed} : TTodo) => <Todo key={name} name={name} completed={completed} />)}
+                {tasks.map(({name, completed}) => <Todo key={name} name={name} completed={completed} />)}
                 </div>
             </div>
             {adder && <TodoAdd />}
