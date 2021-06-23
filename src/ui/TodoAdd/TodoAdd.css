@@ -1,0 +1,19 @@
+.add {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+    width: 50%;
+}
+.add__icon {
+    display: flex;
+    padding: 24px;
+    box-sizing: content-box;
+    background-color: var(--green);
+    border-radius: 24px;
+    z-index: 1;
+}
+.add input[type=text] {
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    margin-right: -20px;
+}

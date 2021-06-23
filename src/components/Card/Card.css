@@ -1,0 +1,24 @@
+.view__container {
+    margin-bottom: 80px;
+}
+.title {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.title svg {
+    cursor: pointer;
+    flex-shrink: 0;
+}
+h1 {
+    margin-right: 40px;
+}
+.todo {
+    margin-top: 40px;
+}
+.todo__wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

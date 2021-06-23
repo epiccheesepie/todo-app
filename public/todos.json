@@ -1,5 +1,6 @@
 [
     {
+        "id": 0,
         "title": "Дом",
         "color": "red",
         "tasks": [
@@ -14,11 +15,13 @@
         ]
     },
     {
+        "id": 1,
         "title": "Учеба",
         "color": "blue",
         "tasks": []
     },
     {
+        "id": 2,
         "title": "Список покупок",
         "color": "yellow",
         "tasks": [
