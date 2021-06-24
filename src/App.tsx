@@ -23,13 +23,21 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
       setLoading(true);
       fetch('http://localhost:3000/todos.json')
       .then(response => response.json())
-      .then(json => {
-        todoStore.setTodos(json);
+      .then((json) => {
         setLoading(false);
+        todoStore.setTodos(json);
       })
       .catch((e) => setError(e));
     }
   }, []);
+
+  console.log(todoStore);
+
+  const handleTodoClick = (selecterId: number) => (name: string) => {
+    console.log(selecterId, name);
+    todoStore?.setCompleted(selecterId, name);
+    console.log(todoStore);
+  }
 
   return (
     <main>
@@ -55,7 +63,7 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
       </div>
       <div className="right">
         <div className="right__container">
-          <View data={data} loading={loading} error={error} />
+          <View data={data} loading={loading} error={error} handleTodoClick={handleTodoClick} />
         </div>
       </div>
     </main>
@@ -65,10 +73,11 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
 interface ViewProps {
   data: Array<SelecterModel>,
   loading: boolean,
-  error: any
+  error: any,
+  handleTodoClick: (id: number) => (name: string) => void;
 }
 
-const View : React.FC<ViewProps> = ({data, loading, error}) : React.ReactElement => {
+const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick}) : React.ReactElement => {
 
   if (error) {
     return (
@@ -89,13 +98,13 @@ const View : React.FC<ViewProps> = ({data, loading, error}) : React.ReactElement
         <div className="view">
             <Route exact path="/">
               {data.map(({id, title, color, tasks}) => (
-                  <Card key={id} title={title} color={color} tasks={tasks} />
+                  <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} />
                 )
               )}
             </Route>
             {data.map(({id, title, color, tasks}) => (
               <Route path={'/' + id}>
-                <Card key={id} title={title} color={color} tasks={tasks} adder />
+                <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} adder />
               </Route>
               )
             )}

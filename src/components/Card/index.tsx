@@ -8,10 +8,11 @@ interface ComponentProps {
     title: string,
     color: string,
     tasks: Array<TodoModel>,
+    onClick: (name: string) => void;
     adder?: boolean
 }
 
-const Card : React.FC<ComponentProps> = ({title, color, tasks, adder}) : React.ReactElement => {
+const Card : React.FC<ComponentProps> = ({title, color, tasks, onClick, adder}) : React.ReactElement => {
 
     return (
         <div className="view__container">
@@ -23,7 +24,7 @@ const Card : React.FC<ComponentProps> = ({title, color, tasks, adder}) : React.R
             </div>
             <div className="todo">
                 <div className="todo__wrap">
-                {tasks.map(({name, completed}) => <Todo key={name} name={name} completed={completed} />)}
+                {tasks.map(({name, completed}) => <Todo key={name} name={name} completed={completed} onClick={onClick} />)}
                 </div>
             </div>
             {adder && <TodoAdd />}

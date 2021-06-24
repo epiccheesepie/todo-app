@@ -7,16 +7,11 @@ export class SelecterModel {
     @observable public color: string;
     @observable public tasks: Array<TodoModel>;
 
-    constructor(title: string, color: string, tasks: Array<TodoModel> = []) {
-        this.id = SelecterModel.generateId();
+    constructor(id: number, title: string, color: string, tasks: Array<TodoModel> = []) {
+        this.id = id;
         this.title = title;
         this.color = color;
         this.tasks = tasks;
-    }
-
-    static nextId = 3;
-    static generateId() {
-        return this.nextId++;
     }
 }
 

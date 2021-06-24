@@ -1,13 +1,18 @@
 import React from "react";
-import { TodoModel } from '../../models'
 import './Todo.css';
 
-const Todo : React.FC<TodoModel> = ({name, completed}) : React.ReactElement => {
+interface ComponentProps {
+    name: string,
+    completed: boolean,
+    onClick: (name: string) => void
+}
+
+const Todo : React.FC<ComponentProps> = ({name, completed, onClick}) : React.ReactElement => {
 
     return (
         <div className="todo__item">
             <label>
-            <input type="checkbox" checked={completed} />
+            <input type="checkbox" checked={completed} onClick={() => onClick(name)} />
             <span className="todo__checkbox"></span>
             <span className="todo__text">{name}</span>
             </label>
