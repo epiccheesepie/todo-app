@@ -31,7 +31,7 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
     }
   }, []);
 
-  console.log(todoStore);
+ 
 
   const handleTodoClick = (selecterId: number) => (name: string) => {
     console.log(selecterId, name);
