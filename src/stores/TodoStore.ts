@@ -36,9 +36,7 @@ class TodoStore {
 
     @action
     addSelecter = (title: string) => {
-        const id: number = this.todos.length;
-        const color: string = this.randomColor();
-        this.todos.push(new SelecterModel(id, title, color));
+        this.todos.push(new SelecterModel(title));
     }
 
     @action
@@ -66,10 +64,6 @@ class TodoStore {
     @action
     removeSelecter = (id: number) => {
         this.todos = this.todos.filter((selecter) => selecter.id !== id);
-    }
-
-    randomColor() {
-        return '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase();
     }
 };
 

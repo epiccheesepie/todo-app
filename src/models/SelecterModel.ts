@@ -7,11 +7,20 @@ export class SelecterModel {
     @observable public color: string;
     @observable public tasks: Array<TodoModel>;
 
-    constructor(id: number, title: string, color: string, tasks: Array<TodoModel> = []) {
-        this.id = id;
+    constructor(title: string, tasks: Array<TodoModel> = []) {
+        this.id = SelecterModel.generateId();
         this.title = title;
-        this.color = color;
+        this.color = SelecterModel.randomColor();
         this.tasks = tasks;
+    }
+
+    static nextId = 3; //количество подгружаемых тудушек
+    static generateId() {
+        return this.nextId++;
+    }
+
+    static randomColor() {
+        return '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase();
     }
 }
 
