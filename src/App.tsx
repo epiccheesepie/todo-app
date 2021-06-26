@@ -16,6 +16,7 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
   const data: Array<SelecterModel> = todoStore!.getTodos;
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [selecter, setSelecter] = React.useState('');
 
   React.useEffect(() => {
     if (todoStore) {
@@ -30,6 +31,9 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
     }
   }, []);
  
+  const handleSelecterChange = (e: any) => {
+    setSelecter(e.target.value);
+  }
 
   const handleTodoClick = (selecterId: number) => (name: string) => {
     todoStore?.setCompleted(selecterId, name);
@@ -37,6 +41,18 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
 
   const handleTodoAdd = (selecterId: number) => (name: string) => {
     todoStore?.addTodo(selecterId, name);
+  }
+
+  const handleTodoRemove = (selecterId: number) => (name: string) => {
+    todoStore?.removeTodo(selecterId, name);
+  }
+
+  const handleSelecterRemove = (selecterId: number) => {
+    todoStore?.removeSelecter(selecterId);
+  }
+
+  const handleSelecterAdd = (title: string) => {
+    todoStore?.addSelecter(title);
   }
 
   return (
@@ -53,17 +69,22 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
               </div>
             </Link>
             <div className="menu__wrap">
-              {data.map(({id, title, color}) => <Selecter key={title} id={id} title={title} color={color} />)}
+              {data.map(({id, title, color}) => <Selecter key={title} id={id} title={title} color={color} onRemove={handleSelecterRemove} />)}
             </div>
             <div className="menu__add">
-              <input type="text" placeholder="Моя новая папка..." />
+              <input type="text" placeholder="Моя новая папка..."  value={selecter} onChange={(e) => handleSelecterChange(e)} />
+              {selecter.length > 0 && (
+                <div className="add-hidden">
+                  <button onClick={() => handleSelecterAdd(selecter)}>Добавить</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
       <div className="right">
         <div className="right__container">
-          <View data={data} loading={loading} error={error} handleTodoClick={handleTodoClick} handleTodoAdd={handleTodoAdd} />
+          <View data={data} loading={loading} error={error} handleTodoClick={handleTodoClick} handleTodoAdd={handleTodoAdd} handleTodoRemove={handleTodoRemove} />
         </div>
       </div>
     </main>
@@ -76,9 +97,10 @@ interface ViewProps {
   error: any,
   handleTodoClick: (id: number) => (name: string) => void,
   handleTodoAdd: (id: number) => (name: string) => void,
+  handleTodoRemove: (id: number) => (name: string) => void
 }
 
-const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick, handleTodoAdd}) : React.ReactElement => {
+const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick, handleTodoAdd, handleTodoRemove}) : React.ReactElement => {
 
   if (error) {
     return (
@@ -99,13 +121,13 @@ const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick, hand
         <div className="view">
             <Route exact path="/">
               {data.map(({id, title, color, tasks}) => (
-                  <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} />
+                  <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} onRemove={handleTodoRemove(id)} />
                 )
               )}
             </Route>
             {data.map(({id, title, color, tasks}) => (
               <Route path={'/' + id}>
-                <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} adder />
+                <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} onRemove={handleTodoRemove(id)} adder />
               </Route>
               )
             )}

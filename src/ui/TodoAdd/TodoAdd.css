@@ -5,6 +5,7 @@
     width: 50%;
 }
 .add__icon {
+    cursor: pointer;
     display: flex;
     padding: 24px;
     box-sizing: content-box;

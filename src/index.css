@@ -79,6 +79,37 @@ input[type=text]::placeholder {
   font-weight: 300;
 }
 
+.add-hidden {
+  padding: 18px;
+  background-color: #ffffff;
+  margin-top: 10px;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  display: flex;
+  animation: addhidden .2s ease-in-out;
+}
+.add-hidden button {
+  margin: auto;
+  border: none;
+  font-size: .8em;
+  font-family: 'Montserrat', sans-serif;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--green);
+  color: #fff;
+  width: 100%;
+  font-weight: 500;
+}
+@keyframes addhidden {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .view--missing {
   position: absolute;
   top: 0;

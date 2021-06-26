@@ -35,8 +35,9 @@ class TodoStore {
     }
 
     @action
-    addSelecter = (title: string, color: string) => {
-        const id = this.todos.length;
+    addSelecter = (title: string) => {
+        const id: number = this.todos.length;
+        const color: string = this.randomColor();
         this.todos.push(new SelecterModel(id, title, color));
     }
 
@@ -49,6 +50,26 @@ class TodoStore {
             }
             return selecter;
         })
+    }
+
+    @action
+    removeTodo = (id: number, name: string) => {
+        
+        this.todos = this.todos.map((selecter) => {
+            if (selecter.id === id) {
+                selecter.tasks = selecter.tasks.filter((task) => task.name !== name);
+            }
+            return selecter;
+        })
+    }
+
+    @action
+    removeSelecter = (id: number) => {
+        this.todos = this.todos.filter((selecter) => selecter.id !== id);
+    }
+
+    randomColor() {
+        return '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase();
     }
 };
 
