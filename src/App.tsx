@@ -13,7 +13,6 @@ type ComponentProps = {
 
 const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
 
-  // const [data, setData] = React.useState([]);
   const data: Array<SelecterModel> = todoStore!.getTodos;
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -30,13 +29,14 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
       .catch((e) => setError(e));
     }
   }, []);
-
  
 
   const handleTodoClick = (selecterId: number) => (name: string) => {
-    console.log(selecterId, name);
     todoStore?.setCompleted(selecterId, name);
-    console.log(todoStore);
+  }
+
+  const handleTodoAdd = (selecterId: number) => (name: string) => {
+    todoStore?.addTodo(selecterId, name);
   }
 
   return (
@@ -63,7 +63,7 @@ const App = inject('todoStore')(observer(({todoStore}: ComponentProps) => {
       </div>
       <div className="right">
         <div className="right__container">
-          <View data={data} loading={loading} error={error} handleTodoClick={handleTodoClick} />
+          <View data={data} loading={loading} error={error} handleTodoClick={handleTodoClick} handleTodoAdd={handleTodoAdd} />
         </div>
       </div>
     </main>
@@ -74,10 +74,11 @@ interface ViewProps {
   data: Array<SelecterModel>,
   loading: boolean,
   error: any,
-  handleTodoClick: (id: number) => (name: string) => void;
+  handleTodoClick: (id: number) => (name: string) => void,
+  handleTodoAdd: (id: number) => (name: string) => void,
 }
 
-const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick}) : React.ReactElement => {
+const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick, handleTodoAdd}) : React.ReactElement => {
 
   if (error) {
     return (
@@ -98,13 +99,13 @@ const View : React.FC<ViewProps> = ({data, loading, error, handleTodoClick}) : R
         <div className="view">
             <Route exact path="/">
               {data.map(({id, title, color, tasks}) => (
-                  <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} />
+                  <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} />
                 )
               )}
             </Route>
             {data.map(({id, title, color, tasks}) => (
               <Route path={'/' + id}>
-                <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} adder />
+                <Card key={id} title={title} color={color} tasks={tasks} onClick={handleTodoClick(id)} onAdd={handleTodoAdd(id)} adder />
               </Route>
               )
             )}

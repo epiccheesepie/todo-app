@@ -1,8 +1,12 @@
-import { observable, computed, action } from 'mobx';
+import { computed, action, makeAutoObservable } from 'mobx';
 import { SelecterModel, TodoModel } from '../models';
 
 class TodoStore {
-    @observable public todos: Array<SelecterModel> = [];
+    public todos: Array<SelecterModel> = [];
+
+    constructor() {
+        makeAutoObservable(this);
+    }
 
     @computed
     get getTodos() : Array<SelecterModel> {
@@ -13,15 +17,6 @@ class TodoStore {
     setTodos = (todos: Array<SelecterModel>): void => {
         this.todos = todos;
     }
-
-    // @action
-    // fetchTodo = () => {
-    //     fetch('http://localhost:3000/todos.json')
-    //     .then(response => response.json())
-    //     .then(json => {
-    //       this.todos = json;
-    //     })
-    // }
 
     @action
     setCompleted = (id: number, name: string) => {
