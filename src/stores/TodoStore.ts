@@ -1,11 +1,11 @@
-import { computed, action, makeAutoObservable } from 'mobx';
+import { computed, action, observable, makeObservable } from 'mobx';
 import { SelecterModel, TodoModel } from '../models';
 
 class TodoStore {
-    public todos: Array<SelecterModel> = [];
+    @observable public todos: Array<SelecterModel> = [];
 
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this);
     }
 
     @computed
